@@ -202,28 +202,30 @@ ul,ol{margin:0;padding:0;list-style:none}
 .zsec{background:var(--navy);position:relative;overflow:hidden}
 .zsec::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 50% at 80% 0%,rgba(var(--k-rgb),.12),transparent 70%);pointer-events:none}
 .z-head{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:48px;align-items:end;margin-bottom:clamp(48px,6vw,80px)}
-.zscene{position:relative;aspect-ratio:1200/560}
+.zscene{position:relative;aspect-ratio:1200/600}
 .zscene>svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-.zpath{fill:none;stroke:url(#zgrad);stroke-width:30;stroke-linejoin:round;stroke-linecap:round}
-.zghost{fill:none;stroke:rgba(255,255,255,.06);stroke-width:30;stroke-linejoin:round;stroke-linecap:round}
-.js .zpath{stroke-dasharray:1;stroke-dashoffset:1}
-.zscene.play .zpath{transition:stroke-dashoffset 3.2s cubic-bezier(.6,.05,.25,1);stroke-dashoffset:0}
-.zstep{position:absolute;width:min(300px,26%)}
-.zstep .no{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--k)}
-.zstep h3{font-size:clamp(17px,1.7vw,22px);font-weight:600;letter-spacing:-.03em;line-height:1.15;margin-top:6px}
-.znode{position:absolute;display:flex;align-items:center;gap:10px;padding:9px 13px 9px 9px;border-radius:14px;background:#fff;color:#14172E;font-size:13px;line-height:1.3;box-shadow:0 20px 40px -18px rgba(0,0,0,.6);white-space:nowrap;transform:translate(-50%,-50%)}
-.znode .ic{display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:#F4F1E9;flex:none}
+.zghost{fill:rgba(255,255,255,.045)}
+.zfill{fill:url(#zgrad)}
+.zmask path{fill:none;stroke:#fff;stroke-width:360;stroke-linecap:round;stroke-linejoin:round}
+.js .zmask path{stroke-dasharray:1;stroke-dashoffset:1}
+.zscene.play .zmask path{transition:stroke-dashoffset 2.6s cubic-bezier(.6,.05,.25,1);stroke-dashoffset:0}
+.zt{font-family:Geist,ui-sans-serif,system-ui,sans-serif;font-weight:650;font-size:27px;letter-spacing:-.7px;fill:var(--night)}
+.zn{font-family:var(--mono);font-weight:500;font-size:15px;letter-spacing:1px;fill:var(--night);fill-opacity:.55}
+.zlink{stroke:var(--k);stroke-width:2;stroke-dasharray:3 6;stroke-linecap:round}
+.zdot{fill:var(--k)}
+.znode{position:absolute;display:flex;align-items:center;gap:10px;padding:9px 14px 9px 9px;border-radius:14px;background:#fff;color:#14172E;font-size:13px;line-height:1.3;box-shadow:0 18px 36px -18px rgba(1,7,39,.7);white-space:nowrap;transform:translate(-50%,-50%)}
+.znode .ic{display:grid;place-items:center;width:32px;height:32px;border-radius:9px;background:#F1F4EF;flex:none}
 .znode .ic svg{width:16px;height:16px}
-.znode b{display:block;font-size:13px}
+.znode b{display:block;font-size:13.5px}
 .znode span{display:block;color:#6E7190;font-size:11.5px}
 .znode.kk .ic{background:var(--k);color:var(--night)}
-.js .zscene .znode,.js .zscene .zstep{opacity:0;transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.js .zscene .znode,.js .zscene .zt,.js .zscene .zl2{opacity:0;transition:opacity .7s var(--ease),transform .7s var(--ease)}
 .js .zscene .znode{transform:translate(-50%,-30%)}
 .zscene.play .znode{opacity:1;transform:translate(-50%,-50%)}
-.zscene.play .zstep{opacity:1}
-.zscene.play .s1{transition-delay:.2s}.zscene.play .n1{transition-delay:.45s}.zscene.play .n2{transition-delay:.75s}.zscene.play .n3{transition-delay:1.05s}
-.zscene.play .s2{transition-delay:1.3s}.zscene.play .n4{transition-delay:1.6s}.zscene.play .n5{transition-delay:1.95s}
-.zscene.play .s3{transition-delay:2.4s}.zscene.play .n6{transition-delay:2.7s}.zscene.play .n7{transition-delay:3s}
+.zscene.play .zt,.zscene.play .zl2{opacity:1}
+.zscene.play .t1{transition-delay:.5s}.zscene.play .n1{transition-delay:.8s}.zscene.play .n2{transition-delay:1s}
+.zscene.play .t2{transition-delay:1.4s}.zscene.play .zl2,.zscene.play .n4{transition-delay:1.7s}.zscene.play .n5{transition-delay:1.95s}
+.zscene.play .t3{transition-delay:2.3s}.zscene.play .n6{transition-delay:2.6s}.zscene.play .n7{transition-delay:2.85s}
 .zlist{display:none}
 
 /* ---------- 03 Cèdre ---------- */
@@ -253,7 +255,14 @@ ul,ol{margin:0;padding:0;list-style:none}
 .note a{color:var(--txt)}
 
 /* ---------- 04 Missions ---------- */
-.miss{background:var(--paper-2)}
+.miss{background:var(--k)}
+.miss .idx,.miss .idx .n{color:var(--k-txt)}
+.miss .tab{background:rgba(255,255,255,.5);box-shadow:inset 0 0 0 1px rgba(1,7,39,.1)}
+.miss .tab:hover{background:rgba(255,255,255,.85)}
+.miss .tab .no,.miss .tab p{color:#3F4A3C}
+.miss .tab[aria-selected="true"]{background:var(--night);box-shadow:none}
+.miss .tab[aria-selected="true"] .no{color:var(--k)}
+.miss .tab[aria-selected="true"] p{color:#B8BDDA}
 .miss-head{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:48px;align-items:end;margin-bottom:48px}
 .tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:18px}
 .tab{text-align:left;padding:18px 18px 20px;border-radius:16px;border:0;background:rgba(255,255,255,.55);box-shadow:inset 0 0 0 1px var(--line);transition:background .3s,box-shadow .3s,transform .3s var(--ease)}
@@ -491,9 +500,9 @@ ul,ol{margin:0;padding:0;list-style:none}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *,*::before,*::after{animation:none!important;transition:none!important}
-  .js .rv,.js .zscene .znode,.js .zscene .zstep,.js .ev.pre{opacity:1!important;transform:none!important}
+  .js .rv,.js .zscene .znode,.js .zscene .zt,.js .zscene .zl2,.js .ev.pre{opacity:1!important;transform:none!important}
   .zscene .znode{transform:translate(-50%,-50%)!important}
-  .js .zpath,.js .rings path{stroke-dashoffset:0!important}
+  .js .zmask path,.js .rings path{stroke-dashoffset:0!important}
 }
 </style>
 </head>
@@ -638,20 +647,21 @@ ul,ol{margin:0;padding:0;list-style:none}
     </div>
 
     <div class="zscene" id="zscene" aria-hidden="true">
-      <svg viewBox="0 0 1200 560" preserveAspectRatio="none">
-        <path class="zghost" d="M70 70H1130L70 490H1130"/>
-        <path class="zpath" pathLength="1" d="M70 70H1130L70 490H1130"/>
+      <svg viewBox="0 0 1200 600">
+        <defs><mask id="zmask" class="zmask" maskUnits="userSpaceOnUse" x="-200" y="-200" width="1600" height="1000"><path pathLength="1" d="M0 89H1046L153 511H1200"/></mask></defs>
+        <path class="zghost" d="M60 40H1140V138.8L458.6 461.2H1140V560H60V461.2L741.4 138.8H60Z"/>
+        <path class="zfill" mask="url(#zmask)" d="M60 40H1140V138.8L458.6 461.2H1140V560H60V461.2L741.4 138.8H60Z"/>
+        <text class="zt t1" x="96" y="99"><tspan class="zn">01</tspan><tspan dx="14">Les mails alimentent le dossier</tspan></text>
+        <text class="zt t2" transform="translate(600 300) rotate(-25.3)" text-anchor="middle" y="9"><tspan class="zn">02</tspan><tspan dx="14">Les collectes se lancent au bon moment</tspan></text>
+        <text class="zt t3" x="96" y="520"><tspan class="zn">03</tspan><tspan dx="14">Les Word arrivent prêts à relire</tspan></text>
+        <g class="zl2"><line class="zlink" x1="410" y1="250" x2="500" y2="250"/><circle class="zdot" cx="503" cy="250" r="5"/><line class="zlink" x1="820" y1="372" x2="660" y2="372"/><circle class="zdot" cx="656" cy="372" r="5"/></g>
       </svg>
-      <div class="zstep s1" style="left:0;top:20%"><div class="no">01</div><h3>Les mails alimentent le dossier</h3></div>
-      <div class="znode n1" style="left:38%;top:12.5%"><span class="ic"><svg><use href="#i-mail"/></svg></span><span><b>Mail acquéreur</b><span>Accord de prêt reçu</span></span></div>
-      <div class="znode n2" style="left:62%;top:12.5%"><span class="ic"><svg><use href="#i-mail"/></svg></span><span><b>Mail diagnostiqueur</b><span>DPE et ERP joints</span></span></div>
-      <div class="znode n3" style="left:85%;top:12.5%"><span class="ic"><svg><use href="#i-up"/></svg></span><span><b>Espace client</b><span>Pièce d'identité déposée</span></span></div>
-      <div class="zstep s2" style="left:56%;top:41%;width:min(320px,28%)"><div class="no">02</div><h3>Les collectes se lancent au bon moment</h3></div>
-      <div class="znode n4 kk" style="left:66%;top:36%"><span class="ic"><svg><use href="#i-bell"/></svg></span><span><b>Collecte lancée</b><span>Attestation d'assurance</span></span></div>
-      <div class="znode n5 kk" style="left:34%;top:64%"><span class="ic"><svg><use href="#i-bell"/></svg></span><span><b>Relance préparée</b><span>À valider par l'équipe</span></span></div>
-      <div class="zstep s3" style="left:0;top:96%;width:min(340px,30%)"><div class="no">03</div><h3>Les Word arrivent prêts à relire</h3></div>
-      <div class="znode n6" style="left:55%;top:87.5%"><span class="ic"><svg><use href="#i-doc"/></svg></span><span><b>Projet d'acte.docx</b><span>Prêt à relire</span></span></div>
-      <div class="znode n7" style="left:82%;top:87.5%"><span class="ic"><svg><use href="#i-doc"/></svg></span><span><b>Réponse à l'acquéreur.docx</b><span>Suggérée, à valider</span></span></div>
+      <div class="znode n1" style="left:62%;top:14.9%"><span class="ic"><svg><use href="#i-mail"/></svg></span><span><b>Mail acquéreur</b><span>Accord de prêt reçu</span></span></div>
+      <div class="znode n2" style="left:82.5%;top:14.9%"><span class="ic"><svg><use href="#i-up"/></svg></span><span><b>Espace client</b><span>Pièce d'identité déposée</span></span></div>
+      <div class="znode n4 kk" style="left:24.5%;top:41.7%"><span class="ic"><svg><use href="#i-bell"/></svg></span><span><b>Collecte lancée</b><span>Attestation d'assurance</span></span></div>
+      <div class="znode n5 kk" style="left:77.5%;top:62%"><span class="ic"><svg><use href="#i-bell"/></svg></span><span><b>Relance préparée</b><span>À valider par l'équipe</span></span></div>
+      <div class="znode n6" style="left:62.5%;top:85.1%"><span class="ic"><svg><use href="#i-doc"/></svg></span><span><b>Projet d'acte.docx</b><span>Prêt à relire</span></span></div>
+      <div class="znode n7" style="left:82%;top:85.1%"><span class="ic"><svg><use href="#i-doc"/></svg></span><span><b>Réponse à l'acquéreur.docx</b><span>Suggérée, à valider</span></span></div>
     </div>
 
     <div class="zlist">
