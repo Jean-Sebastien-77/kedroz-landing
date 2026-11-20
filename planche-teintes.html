@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>kedroZ · teintes</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&family=Geist+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F6F3EC;--txt:#0B0E22;--mute:#585C72}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:Geist,system-ui,sans-serif;padding:32px 16px 48px}
+h1{font-size:28px;letter-spacing:-.03em;margin:0 auto 6px;max-width:1480px}
+p.s{margin:0 auto 24px;max-width:1480px;color:var(--mute)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(440px,1fr));gap:22px;max-width:1480px;margin:0 auto}
+figure{margin:0}
+.frame{position:relative;width:100%;aspect-ratio:1440/900;border-radius:14px;overflow:hidden;box-shadow:0 20px 40px -24px rgba(0,0,0,.5)}
+.frame iframe{position:absolute;left:0;top:0;width:1440px;height:900px;border:0;transform-origin:0 0;pointer-events:none}
+figcaption{display:flex;align-items:center;gap:10px;margin-top:10px;font-size:15px}
+figcaption i{width:18px;height:18px;border-radius:50%}
+figcaption b{font-weight:600}
+figcaption span{color:var(--mute);font-size:13.5px}
+figcaption code{margin-left:auto;font-family:"Geist Mono",monospace;font-size:12px;color:var(--mute)}
+</style>
+</head>
+<body>
+<h1>kedroZ · six teintes sur la vraie page</h1>
+<p class="s">Même page, seule la couleur de marque change. Repères famille : zeBoard citron, leZèbre rose.</p>
+<div class="grid" id="g"></div>
+<script>
+var SETS={
+ couleurs:[['or','Or champagne','sceau, dorure','#E9C46A'],['ambre','Ambre','bois de cèdre, cire chaude','#FFB22E'],['vermillon','Vermillon','cire à cacheter','#FF6A3D'],['glacier','Bleu glacier','confiance, bleu leZèbre','#5CC8FF'],['lavande','Lavande','doux, proche du violet leZèbre','#B9A2FF'],['menthe','Menthe','fraîche, tech','#3DF2C4']],
+ verts:[['olive','Olive','feuillage du cèdre, sobre et chic','#A3B04A'],['olivedoree','Olive dorée','olive tirée vers l\'or, plus lumineuse','#C9C15E'],['sauge','Sauge','très douce, élégante, discrète','#A8C8A0'],['cedre','Vert cèdre','vert franc, proche du Kedros actuel','#5DB583'],['emeraude','Émeraude','vif, technologique','#2ED39A'],['menthe','Menthe (actuelle)','fraîche, tech','#3DF2C4']]
+};
+var set=(new URLSearchParams(location.search).get('set')==='couleurs')?'couleurs':'verts';
+var T=SETS[set];
+document.querySelector('h1').textContent= set==='verts'?'kedroZ · six verts sur la vraie page':'kedroZ · six teintes sur la vraie page';
+var g=document.getElementById('g');
+T.forEach(function(t){
+  var f=document.createElement('figure');
+  f.innerHTML='<div class="frame"><iframe loading="eager" tabindex="-1" title="'+t[1]+'" src="index.html?teinte='+t[0]+'&amp;v='+Date.now()+'"></iframe></div><figcaption><i style="background:'+t[3]+'"></i><b>'+t[1]+'</b><span>'+t[2]+'</span><code>'+t[3]+'</code></figcaption>';
+  g.appendChild(f);
+  var fr=f.querySelector('iframe');
+  fr.addEventListener('load',function(){try{fr.contentWindow.scrollTo(0,150)}catch(e){}});
+});
+function fit(){document.querySelectorAll('.frame').forEach(function(fr){fr.querySelector('iframe').style.transform='scale('+(fr.clientWidth/1440)+')'})}
+fit();addEventListener('resize',fit);
+</script>
+</body>
+</html>

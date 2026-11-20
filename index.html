@@ -1,0 +1,1071 @@
+<!doctype html>
+<html lang="fr" data-teinte="sauge">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>kedroZ | Le logiciel qui prépare vos dossiers notariaux</title>
+<meta name="description" content="kedroZ lit les mails, classe les pièces, lance les collectes et prépare les documents Word de vos dossiers. Conçu par des notaires pour les études notariales. Hébergé en France.">
+<meta name="theme-color" content="#010727">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&family=Geist+Mono:wght@400..600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath fill='%23A8C8A0' d='M10 0H22A18 18 0 0 1 40 18V30A10 10 0 0 1 30 40H10A10 10 0 0 1 0 30V10A10 10 0 0 1 10 0Z'/%3E%3Cpath fill='%23010727' d='M19.61 8.44L14.56 12.18L28.45 20.37ZM11.74 14.47L10.1 20.57L31.4 26.53ZM7.88 23.65L6.5 29.74L33.5 29.61ZM18.17 29.55H21.38V32.76H18.17Z'/%3E%3C/svg%3E">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"kedroZ","applicationCategory":"BusinessApplication","operatingSystem":"Web","description":"Logiciel pour les études notariales : lecture des mails, classement des pièces, collectes et préparation des documents Word.","publisher":{"@type":"Organization","name":"leZèbre Tech"}}
+</script>
+<style>
+:root{
+  --night:#010727; --navy:#000F57; --ink:#020B47; --ink-2:#0B1763;
+  --g-night:linear-gradient(180deg,#010727 0%,#000F57 100%);
+  --line-d:rgba(255,255,255,.11); --line-d2:rgba(255,255,255,.2);
+  --txt-d:#F3F4FA; --mute-d:#A9AFD3;
+  --paper:#F6F3EC; --paper-2:#EDE8DD; --white:#FFFFFF;
+  --txt:#0B0E22; --mute:#585C72; --line:#DCD6C8;
+  --ok:#1FA971; --warn:#E5484D;
+  --r:16px; --ease:cubic-bezier(.2,.7,.1,1);
+  --pad-x:clamp(16px,4vw,48px);
+  --serif:"Instrument Serif",ui-serif,Georgia,serif;
+  --mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  /* Teinte kedroZ : sauge */
+  --k:#A8C8A0; --k-2:#7FA676; --k-hi:#D9EAD3; --k-rgb:168,200,160; --k-deep:#4D6E45; --k-txt:#2F4A29;
+}
+[data-teinte="menthe"]{--k:#3DF2C4; --k-2:#00CF98; --k-hi:#B5FFEA; --k-rgb:61,242,196; --k-deep:#007A5A; --k-txt:#00563F}
+[data-teinte="olivedoree"]{--k:#C9C15E; --k-2:#A39A2E; --k-hi:#ECE6A8; --k-rgb:201,193,94; --k-deep:#6B6410; --k-txt:#4A450A}
+[data-teinte="olive"]{--k:#A3B04A; --k-2:#7E8B2A; --k-hi:#D6DD9E; --k-rgb:163,176,74; --k-deep:#5B6614; --k-txt:#3D460C}
+[data-teinte="sauge"]{--k:#A8C8A0; --k-2:#7FA676; --k-hi:#D9EAD3; --k-rgb:168,200,160; --k-deep:#4D6E45; --k-txt:#2F4A29}
+[data-teinte="cedre"]{--k:#5DB583; --k-2:#3B8F60; --k-hi:#B6E3C7; --k-rgb:93,181,131; --k-deep:#2B6B47; --k-txt:#1C4A30}
+[data-teinte="emeraude"]{--k:#2ED39A; --k-2:#12A877; --k-hi:#A8F0D6; --k-rgb:46,211,154; --k-deep:#0B7A55; --k-txt:#075238}
+[data-teinte="or"]{--k:#E9C46A; --k-2:#C9962E; --k-hi:#F8E3AE; --k-rgb:233,196,106; --k-deep:#8A6214; --k-txt:#5C400A}
+[data-teinte="ambre"]{--k:#FFB22E; --k-2:#FF8A1F; --k-hi:#FFD98A; --k-rgb:255,178,46; --k-deep:#B35A00; --k-txt:#5A3A00}
+[data-teinte="glacier"]{--k:#5CC8FF; --k-2:#2E8CFF; --k-hi:#BFE8FF; --k-rgb:92,200,255; --k-deep:#0B5FB0; --k-txt:#083F75}
+[data-teinte="lavande"]{--k:#B9A2FF; --k-2:#8B6BFF; --k-hi:#E2D8FF; --k-rgb:185,162,255; --k-deep:#5B3DD9; --k-txt:#3A23A0}
+[data-teinte="vermillon"]{--k:#FF6A3D; --k-2:#E8402A; --k-hi:#FFC2A8; --k-rgb:255,106,61; --k-deep:#B8321C; --k-txt:#7A1E0E}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--night);color:var(--txt-d);font-family:Geist,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:clip}
+img,svg{display:block;max-width:100%}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+h1,h2,h3,h4,p,blockquote,figure{margin:0}
+ul,ol{margin:0;padding:0;list-style:none}
+.mono{font-family:var(--mono)}
+.serif{font-family:var(--serif);font-weight:400;letter-spacing:-.01em}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.wrap{max-width:1280px;margin:0 auto;padding:0 var(--pad-x)}
+:focus-visible{outline:2px solid var(--k);outline-offset:3px;border-radius:6px}
+.light :focus-visible{outline-color:var(--txt)}
+.skip{position:fixed;left:16px;top:-60px;z-index:100;background:var(--k);color:var(--night);padding:10px 16px;border-radius:8px;font-weight:600;text-decoration:none}
+.skip:focus{top:16px}
+.light{background:var(--paper);color:var(--txt)}
+
+/* ---------- Marque ---------- */
+.wm{display:inline-flex;align-items:baseline;font-weight:700;letter-spacing:-.05em;line-height:1;white-space:nowrap}
+.wm .z{height:.71em;width:auto;margin-left:.03em;fill:var(--k)}
+.wm .pic{flex:none;height:1.12em;width:1.12em;margin-right:.32em;align-self:center}
+.pic .ap{fill:var(--k)}
+
+/* ---------- Boutons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:52px;padding:0 24px;border-radius:999px;font-weight:600;font-size:16px;text-decoration:none;border:0;transition:transform .25s var(--ease),background .25s,box-shadow .25s;white-space:nowrap}
+.btn svg{width:16px;height:16px;transition:transform .3s var(--ease)}
+.btn:hover svg{transform:translateX(3px)}
+.btn:active{transform:scale(.98)}
+.btn-k{background:var(--k);color:var(--night)}
+.btn-k:hover{background:var(--k-hi);box-shadow:0 0 0 6px rgba(var(--k-rgb),.16)}
+.btn-ghost{background:transparent;color:var(--txt-d);box-shadow:inset 0 0 0 1px var(--line-d2)}
+.btn-ghost:hover{box-shadow:inset 0 0 0 1px rgba(255,255,255,.45)}
+.btn-ink{background:var(--txt);color:#fff}
+.btn-ink:hover{background:#1C2147}
+.btn-line{background:transparent;color:var(--txt);box-shadow:inset 0 0 0 1px var(--line)}
+.btn-line:hover{box-shadow:inset 0 0 0 1px var(--txt)}
+
+/* ---------- Navigation ---------- */
+.nav{position:fixed;inset:0 0 auto 0;z-index:50;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
+.nav.scrolled{background:rgba(1,7,39,.82);-webkit-backdrop-filter:saturate(1.4) blur(14px);backdrop-filter:saturate(1.4) blur(14px);border-bottom-color:var(--line-d)}
+.nav-in{display:flex;align-items:center;height:72px;gap:28px}
+.brand{display:flex;align-items:center;text-decoration:none}
+.brand .wm{font-size:27px}
+.nav-links{display:flex;gap:2px;margin-left:auto}
+.nav-links a{padding:8px 12px;border-radius:8px;font-size:14.5px;color:#C9CDE2;text-decoration:none;transition:color .2s,background .2s}
+.nav-links a:hover{color:#fff;background:rgba(255,255,255,.06)}
+.nav .btn{height:42px;padding:0 18px;font-size:14.5px}
+.nav .login{font-size:14.5px;color:#C9CDE2;text-decoration:none;padding:8px 4px}
+.nav .login:hover{color:#fff}
+.burger{display:none;margin-left:auto;width:44px;height:44px;border-radius:10px;border:1px solid var(--line-d2);background:transparent;align-items:center;justify-content:center}
+.burger span{display:block;width:18px;height:1.6px;background:#fff;position:relative;transition:background .3s}
+.burger span::before,.burger span::after{content:"";position:absolute;left:0;width:18px;height:1.6px;background:#fff;transition:transform .3s}
+.burger span::before{top:-6px}.burger span::after{top:6px}
+.nav.open .burger span{background:transparent}
+.nav.open .burger span::before{transform:translateY(6px) rotate(45deg)}
+.nav.open .burger span::after{transform:translateY(-6px) rotate(-45deg)}
+.sheet{display:none}
+@media (max-width:1020px){
+  .nav-links,.nav-in>.btn,.nav-in>.login{display:none}
+  .burger{display:inline-flex}
+  .sheet{display:block;position:fixed;inset:72px 0 auto 0;background:var(--night);border-bottom:1px solid var(--line-d);padding:8px var(--pad-x) 24px;transform:translateY(-8px);opacity:0;visibility:hidden;transition:opacity .25s,transform .25s,visibility .25s}
+  .nav.open .sheet{opacity:1;transform:none;visibility:visible}
+  .nav.open{background:var(--night)}
+  .sheet a:not(.btn){display:block;padding:14px 0;border-bottom:1px solid var(--line-d);font-size:20px;font-weight:500;text-decoration:none;letter-spacing:-.02em}
+  .sheet .btn{width:100%;margin-top:20px}
+}
+
+/* ---------- Typo sections ---------- */
+.sec{padding:clamp(88px,11vw,150px) 0}
+.idx{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute-d);margin-bottom:22px}
+.idx .n{color:var(--k)}
+.light .idx{color:var(--mute)}
+.light .idx .n{color:var(--k-deep)}
+.h2{font-size:clamp(36px,5vw,68px);font-weight:600;letter-spacing:-.045em;line-height:.98;text-wrap:balance}
+.h2 .serif{font-style:italic;font-size:1.08em;letter-spacing:-.02em}
+.lead{font-size:19px;line-height:1.55;color:var(--mute-d);max-width:560px}
+.light .lead{color:var(--mute)}
+
+/* ---------- Apparitions ---------- */
+.js .rv{opacity:0;transform:translateY(22px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.js .rv.in{opacity:1;transform:none}
+.js .rv.d1{transition-delay:.08s}.js .rv.d2{transition-delay:.16s}.js .rv.d3{transition-delay:.24s}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;padding:148px 0 0;overflow:hidden;isolation:isolate;background:var(--g-night)}
+.rings-bg{position:absolute;z-index:-1;right:-18vw;top:-30vw;width:min(1100px,90vw);aspect-ratio:1;opacity:.55;-webkit-mask-image:radial-gradient(closest-side,#000 40%,transparent 100%);mask-image:radial-gradient(closest-side,#000 40%,transparent 100%)}
+.rings-bg path{fill:none;stroke:rgba(255,255,255,.07);stroke-width:1}
+.rings-bg path:nth-child(5n){stroke:rgba(var(--k-rgb),.22)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:56px;align-items:end}
+.chip{display:inline-flex;align-items:center;gap:10px;height:32px;padding:0 14px 0 6px;border-radius:999px;background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px var(--line-d);font-size:13.5px;color:#D7DAEC;margin-bottom:28px}
+.chip i{display:inline-grid;place-items:center;height:22px;padding:0 9px;border-radius:999px;background:var(--k);color:var(--night);font-style:normal;font-weight:600;font-size:11.5px}
+.h1{font-size:clamp(50px,7.8vw,124px);font-weight:600;letter-spacing:-.058em;line-height:.9;text-wrap:balance}
+.h1 .serif{display:block;font-style:italic;font-weight:400;color:var(--k);letter-spacing:-.035em;font-size:1.06em;line-height:.95;margin-top:.04em}
+.hero-side p{font-size:19px;line-height:1.5;color:#C3C7DD;max-width:440px}
+.ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.reassure{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:24px;font-size:13.5px;color:var(--mute-d)}
+.reassure span{display:inline-flex;align-items:center;gap:7px}
+.reassure svg{width:14px;height:14px;color:var(--k)}
+
+.stage{position:relative;margin-top:clamp(56px,7vw,88px);padding:0 var(--pad-x)}
+.slab{position:absolute;left:min(6vw,80px);right:-2px;top:clamp(40px,6vw,90px);bottom:0;border-radius:44px 260px 0 0;background:linear-gradient(140deg,var(--k-hi) 0%,var(--k) 46%,var(--k-2) 100%)}
+.slab::after{content:"";position:absolute;inset:0;border-radius:inherit;background:repeating-linear-gradient(115deg,rgba(255,255,255,.0) 0 26px,rgba(255,255,255,.09) 26px 27px);-webkit-mask-image:linear-gradient(90deg,transparent,#000 60%);mask-image:linear-gradient(90deg,transparent,#000 60%)}
+.slab-n{position:absolute;left:-1px;width:min(6vw,80px);top:clamp(180px,22vw,330px);bottom:0;border-radius:0 60px 0 0;background:var(--navy)}
+
+/* ---------- Fenêtre application ---------- */
+.app{position:relative;max-width:1120px;margin:0 auto;border-radius:18px;background:#FBFAF6;color:#14172E;box-shadow:0 50px 120px -30px rgba(1,7,39,.75),0 0 0 1px rgba(1,7,39,.08);overflow:hidden;font-size:14px;line-height:1.45}
+.app-bar{display:flex;align-items:center;gap:14px;height:46px;padding:0 16px;border-bottom:1px solid #ECE8DE;background:#fff}
+.dots{display:flex;gap:6px}.dots i{width:10px;height:10px;border-radius:50%;background:#E4DFD3}
+.app-bar .crumb{font-size:13px;color:#6E7190;display:flex;gap:8px;align-items:center;min-width:0;white-space:nowrap;overflow:hidden}
+.app-bar .crumb b{color:#14172E;font-weight:600}
+.app-bar .live{margin-left:auto;display:inline-flex;align-items:center;gap:7px;font-size:12px;color:#6E7190;white-space:nowrap}
+.live i{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 0 rgba(31,169,113,.5);animation:pulse 2.2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 7px rgba(31,169,113,0)}100%{box-shadow:0 0 0 0 rgba(31,169,113,0)}}
+.app-body{display:grid;grid-template-columns:200px minmax(0,1fr) 320px;min-height:470px}
+.side{border-right:1px solid #ECE8DE;padding:16px 12px;background:#F7F5EF}
+.side .wm{font-size:19px;color:#14172E;padding:2px 8px 16px}
+.side a{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border-radius:9px;color:#4A4E68;text-decoration:none;font-size:13.5px}
+.side a.on{background:#fff;color:#14172E;font-weight:600;box-shadow:0 1px 0 #E9E4D8,0 0 0 1px #EFEBE1}
+.side a em{font-style:normal;font-family:var(--mono);font-size:11.5px;color:#8A8DA6}
+.side a em.k{color:var(--k-deep)}
+.main{padding:20px 22px;min-width:0}
+.d-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px}
+.d-head .ref{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:#8A8DA6}
+.d-head h3{font-size:24px;letter-spacing:-.035em;font-weight:600;margin-top:2px}
+.tag{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:999px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.tag.ok{background:#E3F6EC;color:#11744C}
+.tag.k{background:rgba(var(--k-rgb),.22);color:var(--k-txt)}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.pc{border:1px solid #ECE8DE;border-radius:12px;padding:12px 13px;background:#fff}
+.pc .lb{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:#8A8DA6;text-transform:uppercase}
+.pc b{display:block;font-size:15px;letter-spacing:-.02em;margin:4px 0 2px}
+.pc span{display:block;color:#6E7190;font-size:12.5px}
+.pc .chk{display:flex;align-items:center;gap:6px;margin-top:8px;color:#11744C;font-size:12px;font-weight:500}
+.pc .chk svg{width:12px;height:12px}
+.prog{margin-top:14px;border:1px solid #ECE8DE;border-radius:12px;padding:12px 14px;background:#fff}
+.prog .row{display:flex;justify-content:space-between;font-size:12.5px;color:#4A4E68}
+.prog .row b{font-family:var(--mono);font-weight:600;color:#14172E}
+.bar{height:6px;border-radius:9px;background:#F0ECE2;margin-top:9px;overflow:hidden}
+.bar i{display:block;height:100%;width:90%;border-radius:inherit;background:linear-gradient(90deg,var(--k-2),var(--k))}
+.prov{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.prov span{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:#4A4E68;padding:4px 9px;border-radius:999px;background:#F4F1E9}
+.prov i{width:7px;height:7px;border-radius:2px}
+.feed{border-left:1px solid #ECE8DE;padding:18px 16px;background:#FDFCF9;display:flex;flex-direction:column;min-width:0}
+.feed h4{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:600;margin-bottom:12px}
+.feed h4 span{font-weight:500;color:#6E7190;font-size:12px}
+.ev{position:relative;padding:10px 12px 11px;border-radius:12px;background:#fff;border:1px solid #ECE8DE;margin-bottom:8px;transition:transform .6s var(--ease),opacity .6s var(--ease),box-shadow .6s}
+.ev .t{font-family:var(--mono);font-size:11px;color:#8A8DA6}
+.ev b{display:block;font-size:13px;margin-top:2px;letter-spacing:-.01em}
+.ev span{display:block;font-size:12px;color:#6E7190}
+.ev.new{box-shadow:0 0 0 2px rgba(var(--k-rgb),.6),0 10px 24px -12px rgba(var(--k-rgb),.8)}
+.js .ev.pre{opacity:0;transform:translateY(-10px)}
+.todo{margin-top:auto;border-radius:12px;background:var(--night);color:#fff;padding:12px 13px}
+.todo .t{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--k);text-transform:uppercase}
+.todo b{display:block;font-size:13px;margin-top:3px;font-weight:500}
+.todo button{margin-top:9px;height:30px;padding:0 12px;border-radius:999px;border:0;background:var(--k);color:var(--night);font-size:12px;font-weight:600}
+
+/* ---------- 02 Le trajet en Z ---------- */
+.zsec{background:var(--navy);position:relative;overflow:hidden}
+.zsec::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 50% at 80% 0%,rgba(var(--k-rgb),.12),transparent 70%);pointer-events:none}
+.z-head{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:48px;align-items:end;margin-bottom:clamp(48px,6vw,80px)}
+.zscene{position:relative;aspect-ratio:1200/560}
+.zscene>svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.zpath{fill:none;stroke:url(#zgrad);stroke-width:30;stroke-linejoin:round;stroke-linecap:round}
+.zghost{fill:none;stroke:rgba(255,255,255,.06);stroke-width:30;stroke-linejoin:round;stroke-linecap:round}
+.js .zpath{stroke-dasharray:1;stroke-dashoffset:1}
+.zscene.play .zpath{transition:stroke-dashoffset 3.2s cubic-bezier(.6,.05,.25,1);stroke-dashoffset:0}
+.zstep{position:absolute;width:min(300px,26%)}
+.zstep .no{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--k)}
+.zstep h3{font-size:clamp(17px,1.7vw,22px);font-weight:600;letter-spacing:-.03em;line-height:1.15;margin-top:6px}
+.znode{position:absolute;display:flex;align-items:center;gap:10px;padding:9px 13px 9px 9px;border-radius:14px;background:#fff;color:#14172E;font-size:13px;line-height:1.3;box-shadow:0 20px 40px -18px rgba(0,0,0,.6);white-space:nowrap;transform:translate(-50%,-50%)}
+.znode .ic{display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:#F4F1E9;flex:none}
+.znode .ic svg{width:16px;height:16px}
+.znode b{display:block;font-size:13px}
+.znode span{display:block;color:#6E7190;font-size:11.5px}
+.znode.kk .ic{background:var(--k);color:var(--night)}
+.js .zscene .znode,.js .zscene .zstep{opacity:0;transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.js .zscene .znode{transform:translate(-50%,-30%)}
+.zscene.play .znode{opacity:1;transform:translate(-50%,-50%)}
+.zscene.play .zstep{opacity:1}
+.zscene.play .s1{transition-delay:.2s}.zscene.play .n1{transition-delay:.45s}.zscene.play .n2{transition-delay:.75s}.zscene.play .n3{transition-delay:1.05s}
+.zscene.play .s2{transition-delay:1.3s}.zscene.play .n4{transition-delay:1.6s}.zscene.play .n5{transition-delay:1.95s}
+.zscene.play .s3{transition-delay:2.4s}.zscene.play .n6{transition-delay:2.7s}.zscene.play .n7{transition-delay:3s}
+.zlist{display:none}
+
+/* ---------- 03 Cèdre ---------- */
+.cedre{position:relative;overflow:hidden}
+.cedre-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(40px,6vw,96px);align-items:center}
+.greek{font-family:var(--serif);font-size:clamp(84px,13vw,200px);line-height:.85;letter-spacing:-.02em;color:var(--txt)}
+.greek-sub{display:flex;align-items:center;gap:14px;margin-top:18px;font-family:var(--mono);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.greek-sub::before{content:"";width:36px;height:1px;background:currentColor}
+.cedre h2{margin-top:36px;font-size:clamp(30px,3.6vw,48px);font-weight:600;letter-spacing:-.04em;line-height:1.02;max-width:560px}
+.cedre h2 .serif{font-style:italic;font-weight:400}
+.cedre .txt{margin-top:22px;color:var(--mute);max-width:540px}
+.cedre .txt+.txt{margin-top:14px}
+.motto{margin-top:28px;font-family:var(--serif);font-style:italic;font-size:clamp(24px,2.4vw,32px);line-height:1.15;color:var(--txt)}
+.tablet-wrap{position:relative;aspect-ratio:1;display:grid;place-items:center}
+.rings{position:absolute;inset:0;width:100%;height:100%}
+.rings path{fill:none;stroke:#C9BFA9;stroke-width:1.1}
+.rings path:nth-child(4n){stroke:var(--k-2);stroke-opacity:.55}
+.js .rings path{stroke-dasharray:1;stroke-dashoffset:1}
+.rings.grow path{transition:stroke-dashoffset 2.4s var(--ease)}
+.rings.grow path{stroke-dashoffset:0}
+.tablet{position:relative;width:min(82%,440px);border-radius:10px 10px 70px 10px;padding:28px 28px 30px;background:linear-gradient(160deg,#D9B98C 0%,#B98C59 55%,#9C6F40 100%);color:#2A1A0A;box-shadow:0 40px 80px -30px rgba(80,45,10,.55),inset 0 0 0 1px rgba(255,255,255,.18)}
+.tablet::before{content:"";position:absolute;inset:0;border-radius:inherit;background:repeating-linear-gradient(176deg,rgba(60,30,5,.0) 0 7px,rgba(60,30,5,.09) 7px 8px,rgba(255,255,255,.0) 8px 19px,rgba(255,255,255,.06) 19px 20px);pointer-events:none}
+.tablet .lat{position:relative;font-family:var(--serif);font-style:italic;font-size:clamp(18px,1.6vw,21px);line-height:1.32}
+.tablet .fr{position:relative;margin-top:16px;padding-top:14px;border-top:1px solid rgba(42,26,10,.25);font-size:14px;line-height:1.5;color:#3D2810}
+.tablet .src{position:relative;margin-top:14px;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#4A3115}
+.note{margin-top:clamp(40px,5vw,64px);padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--mute);max-width:900px}
+.note a{color:var(--txt)}
+
+/* ---------- 04 Missions ---------- */
+.miss{background:var(--paper-2)}
+.miss-head{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:48px;align-items:end;margin-bottom:48px}
+.tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:18px}
+.tab{text-align:left;padding:18px 18px 20px;border-radius:16px;border:0;background:rgba(255,255,255,.55);box-shadow:inset 0 0 0 1px var(--line);transition:background .3s,box-shadow .3s,transform .3s var(--ease)}
+.tab:hover{background:#fff}
+.tab .no{font-family:var(--mono);font-size:12px;color:var(--mute)}
+.tab b{display:block;font-size:19px;letter-spacing:-.03em;margin-top:8px;font-weight:600}
+.tab p{font-size:14px;color:var(--mute);margin-top:6px;line-height:1.45}
+.tab[aria-selected="true"]{background:var(--night);color:#fff;box-shadow:none}
+.tab[aria-selected="true"] .no{color:var(--k)}
+.tab[aria-selected="true"] p{color:#B8BDDA}
+.panel{border-radius:24px;background:var(--night);color:var(--txt-d);padding:clamp(18px,3vw,40px);position:relative;overflow:hidden}
+.panel::before{content:"";position:absolute;right:-120px;bottom:-160px;width:520px;height:520px;border-radius:50%;background:radial-gradient(closest-side,rgba(var(--k-rgb),.28),transparent)}
+.panel[hidden]{display:none}
+.pgrid{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:clamp(24px,4vw,56px);align-items:center}
+.pgrid h3{font-size:clamp(26px,3vw,38px);letter-spacing:-.04em;line-height:1.05;font-weight:600}
+.pgrid h3 .serif{font-style:italic;font-weight:400;color:var(--k)}
+.pgrid p{margin-top:14px;color:var(--mute-d);max-width:420px}
+.pgrid ul{margin-top:20px;display:grid;gap:10px}
+.pgrid li{display:flex;gap:10px;align-items:flex-start;font-size:15px;color:#DADDF0}
+.pgrid li svg{width:16px;height:16px;flex:none;margin-top:4px;color:var(--k)}
+.mock{border-radius:16px;background:#FBFAF6;color:#14172E;padding:18px;font-size:13.5px;box-shadow:0 30px 60px -30px rgba(0,0,0,.7)}
+.mock .mh{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#6E7190;margin-bottom:12px;gap:10px}
+.mock .mh b{color:#14172E;font-size:14px}
+.mail{border:1px solid #ECE8DE;border-radius:12px;background:#fff;padding:12px 14px}
+.mail .from{display:flex;justify-content:space-between;font-size:12px;color:#6E7190}
+.mail .from b{color:#14172E}
+.mail p{margin-top:6px;color:#3E4260;font-size:13px;line-height:1.5}
+.suggest{margin-top:10px;border-radius:12px;padding:12px 14px;background:rgba(var(--k-rgb),.16);border:1px dashed rgba(var(--k-rgb),.9)}
+.suggest .lb{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--k-txt)}
+.suggest p{margin-top:5px;font-size:13px;color:#2C2F48}
+.suggest .acts{display:flex;gap:6px;margin-top:10px}
+.suggest .acts span{height:28px;display:inline-flex;align-items:center;padding:0 11px;border-radius:999px;font-size:12px;font-weight:600;background:#14172E;color:#fff}
+.suggest .acts span+span{background:#fff;color:#14172E;box-shadow:inset 0 0 0 1px #DDD8CC}
+.links{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.links span{font-size:11.5px;padding:4px 9px;border-radius:999px;background:#F1EEE6;color:#4A4E68}
+.pieces{display:grid;gap:6px}
+.piece{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:10px;align-items:center;padding:9px 12px;border-radius:10px;background:#fff;border:1px solid #ECE8DE;font-size:13px}
+.piece .st{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:#E3F6EC;color:#11744C}
+.piece .st svg{width:11px;height:11px}
+.piece.wait .st{background:rgba(var(--k-rgb),.25);color:var(--k-txt)}
+.piece small{font-size:11.5px;color:#6E7190;white-space:nowrap}
+.piece.wait small{color:var(--k-txt);font-weight:600}
+.doc{display:grid;grid-template-columns:minmax(0,1fr) 170px;gap:12px}
+.page{background:#fff;border:1px solid #ECE8DE;border-radius:8px;padding:18px 20px;font-family:var(--serif);font-size:15px;line-height:1.5;color:#2C2F48}
+.page .tt{text-align:center;font-size:17px;letter-spacing:.04em;margin-bottom:10px}
+.page mark{background:rgba(var(--k-rgb),.3);color:inherit;padding:0 3px;border-radius:3px}
+.page .l{height:7px;border-radius:4px;background:#EFEBE2;margin:8px 0}
+.page .l.s{width:62%}
+.doc-side{display:grid;gap:8px;align-content:start}
+.doc-side div{border-radius:10px;padding:9px 11px;background:#fff;border:1px solid #ECE8DE;font-size:12px;color:#4A4E68}
+.doc-side b{display:block;color:#14172E;font-size:12.5px}
+.word{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:12.5px;color:#4A4E68}
+.word i{display:grid;place-items:center;width:26px;height:26px;border-radius:6px;background:#2B579A;color:#fff;font-style:normal;font-weight:700;font-size:12px}
+.flag{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;padding:11px 12px;border-radius:12px;background:#fff;border:1px solid #ECE8DE;margin-bottom:7px;font-size:13px}
+.flag .fl{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:6px;white-space:nowrap}
+.flag .f1{background:#FDE7E8;color:#B4232A}.flag .f2{background:rgba(var(--k-rgb),.25);color:var(--k-txt)}.flag .f3{background:#E8ECFB;color:#2A3A9A}
+.flag span{display:block;color:#6E7190;font-size:12px;margin-top:2px}
+
+/* ---------- 05 Dossier vivant ---------- */
+.vivant{background:var(--g-night);overflow:hidden}
+.viv-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:clamp(32px,5vw,80px);align-items:center}
+.gains{margin-top:32px;display:grid;gap:0;border-top:1px solid var(--line-d)}
+.gains li{display:flex;gap:16px;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--line-d);font-size:18px;letter-spacing:-.02em}
+.gains li i{font-style:normal;font-family:var(--mono);font-size:12px;color:var(--k)}
+.legend{position:relative;border-radius:26px;padding:clamp(22px,3vw,36px);background:rgba(255,255,255,.04);box-shadow:inset 0 0 0 1px var(--line-d)}
+.legend h3{font-size:22px;letter-spacing:-.03em;font-weight:600}
+.legend>p{color:var(--mute-d);margin-top:8px;font-size:15.5px}
+.facts{margin-top:22px;display:grid;gap:10px}
+.fact{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:center;padding:14px 16px;border-radius:14px;background:#FBFAF6;color:#14172E}
+.fact .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8A8DA6}
+.fact b{display:block;font-size:15px;letter-spacing:-.02em;margin-top:2px}
+.badge{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 11px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
+.badge i{width:7px;height:7px;border-radius:50%;background:currentColor}
+.b-est{background:#E3F6EC;color:#11744C}
+.b-dec{background:#E8ECFB;color:#2A3A9A}
+.b-cal{background:#EFE9FF;color:#5B3DD9}
+.b-conf{background:rgba(var(--k-rgb),.26);color:var(--k-txt)}
+
+/* ---------- 06 Maîtrise ---------- */
+.mait-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:clamp(32px,6vw,96px)}
+.mait-sticky{position:sticky;top:120px;align-self:start}
+.mait-sticky .h2{font-size:clamp(40px,5.6vw,80px)}
+.mait-sticky .h2 .serif{display:block;color:var(--k-deep)}
+.mlist li{display:grid;grid-template-columns:64px minmax(0,1fr);gap:18px;padding:32px 0;border-top:1px solid var(--line);position:relative}
+.mlist li::before{content:"";position:absolute;left:0;top:-1px;height:1px;width:0;background:var(--txt);transition:width 1.2s var(--ease)}
+.mlist li.in::before{width:100%}
+.mlist .no{font-family:var(--serif);font-style:italic;font-size:44px;line-height:1;color:var(--k-deep)}
+.mlist h3{font-size:clamp(22px,2.4vw,30px);letter-spacing:-.035em;font-weight:600;line-height:1.1}
+.mlist p{margin-top:8px;color:var(--mute);max-width:520px}
+
+/* ---------- 07 Sécurité ---------- */
+.secu{background:var(--night);position:relative;overflow:hidden}
+.secu-head{max-width:760px;margin-bottom:56px}
+.secu-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px}
+.sc{border-radius:22px;padding:26px;background:rgba(255,255,255,.04);box-shadow:inset 0 0 0 1px var(--line-d);position:relative;overflow:hidden}
+.sc h3{font-size:22px;letter-spacing:-.03em;font-weight:600}
+.sc p{color:var(--mute-d);margin-top:10px;font-size:15.5px}
+.sc .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:rgba(var(--k-rgb),.14);color:var(--k);margin-bottom:22px}
+.sc .ic svg{width:22px;height:22px}
+.sc-big{grid-column:span 7;grid-row:span 2;display:flex;flex-direction:column;background:linear-gradient(160deg,rgba(var(--k-rgb),.16),rgba(255,255,255,.03) 60%)}
+.sc-a{grid-column:span 5}
+.sc-b{grid-column:span 5}
+.sc-c{grid-column:span 12;display:grid;grid-template-columns:auto minmax(0,1fr);gap:22px;align-items:center}
+.sc-c .ic{margin:0}
+.vault{margin-top:auto;padding-top:30px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.etude{border-radius:16px;padding:16px 14px;background:rgba(1,7,39,.6);box-shadow:inset 0 0 0 1px var(--line-d2);text-align:center}
+.etude .key{width:46px;height:46px;margin:0 auto 12px;border-radius:50%;display:grid;place-items:center;background:var(--k);color:var(--night)}
+.etude .key svg{width:22px;height:22px}
+.etude b{display:block;font-size:13.5px}
+.etude span{display:block;font-family:var(--mono);font-size:10.5px;color:var(--mute-d);margin-top:3px;letter-spacing:.04em}
+.etude:nth-child(2) .key{background:#fff}
+.etude:nth-child(3) .key{background:#C9CDE2}
+
+/* ---------- 08 Accès ---------- */
+.acces-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:14px;margin-top:48px}
+.ac{border-radius:26px;padding:clamp(24px,3vw,40px);display:flex;flex-direction:column;min-height:340px}
+.ac .lb{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.ac h3{font-size:clamp(28px,3vw,40px);letter-spacing:-.04em;font-weight:600;line-height:1.02;margin-top:14px}
+.ac p{margin-top:14px;max-width:440px}
+.ac .btn{margin-top:auto;align-self:flex-start}
+.ac-1{background:var(--night);color:#fff;border-radius:26px 26px 26px 120px;position:relative;overflow:hidden}
+.ac-1 .lb{color:var(--k)}
+.ac-1 p{color:var(--mute-d)}
+.ac-1::after{content:"";position:absolute;right:-60px;top:-60px;width:240px;height:240px;border-radius:0 0 0 200px;background:linear-gradient(140deg,var(--k-hi),var(--k-2));opacity:.95}
+.ac-1>*{position:relative;z-index:1}
+.ac-2{background:#fff;box-shadow:inset 0 0 0 1px var(--line)}
+.ac-2 .lb{color:var(--mute)}
+.ac-2 p{color:var(--mute)}
+.ac .btn{margin-top:28px}
+.client-note{margin-top:14px;display:flex;gap:14px;align-items:center;padding:18px 22px;border-radius:18px;background:var(--paper-2);color:var(--mute);font-size:15px}
+.client-note svg{width:22px;height:22px;flex:none;color:var(--txt)}
+.client-note b{color:var(--txt)}
+
+/* ---------- 09 FAQ ---------- */
+.faq-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:clamp(32px,6vw,96px)}
+.qa{border-top:1px solid var(--line)}
+.qa:last-child{border-bottom:1px solid var(--line)}
+.qa summary{list-style:none;display:flex;justify-content:space-between;gap:20px;align-items:center;padding:22px 0;font-size:19px;font-weight:500;letter-spacing:-.02em;cursor:pointer}
+.qa summary::-webkit-details-marker{display:none}
+.qa summary i{flex:none;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;box-shadow:inset 0 0 0 1px var(--line);transition:transform .3s var(--ease),background .3s}
+.qa summary i svg{width:14px;height:14px}
+.qa[open] summary i{transform:rotate(45deg);background:var(--txt);color:#fff;box-shadow:none}
+.qa p{padding:0 0 24px;color:var(--mute);max-width:640px}
+
+/* ---------- 10 Démo ---------- */
+.final{position:relative;overflow:hidden;background:var(--g-night);isolation:isolate}
+.bigz{position:absolute;z-index:-1;right:-6vw;bottom:-8vw;width:min(62vw,820px);height:auto;opacity:.95}
+.bigz path{fill:url(#bzgrad)}
+.final-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(32px,5vw,80px);align-items:start}
+.final .h2{font-size:clamp(42px,6vw,92px)}
+.final .h2 .serif{color:var(--k)}
+.form{border-radius:24px;padding:clamp(22px,3vw,34px);background:#FBFAF6;color:var(--txt);box-shadow:0 40px 100px -30px rgba(0,0,0,.6)}
+.form h3{font-size:22px;letter-spacing:-.03em;font-weight:600}
+.form>p{color:var(--mute);font-size:14.5px;margin-top:4px}
+.f-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+.fld{display:flex;flex-direction:column;gap:6px}
+.fld.full{grid-column:1/-1}
+.fld label{font-size:13px;font-weight:600}
+.fld label small{font-weight:400;color:var(--mute)}
+.fld input,.fld select{height:48px;border-radius:12px;border:1px solid var(--line);background:#fff;padding:0 14px;font:inherit;font-size:16px;color:var(--txt);width:100%}
+.fld input:focus,.fld select:focus{outline:none;border-color:var(--txt);box-shadow:0 0 0 3px rgba(var(--k-rgb),.35)}
+.fld .err{display:none;font-size:12.5px;color:var(--warn)}
+.fld.bad input,.fld.bad select{border-color:var(--warn)}
+.fld.bad .err{display:block}
+.form .btn{width:100%;margin-top:18px}
+.form .legal{font-size:12px;color:var(--mute);margin-top:12px}
+.sent{display:none;margin-top:14px;padding:12px 14px;border-radius:12px;background:#E3F6EC;color:#11744C;font-size:14px}
+.sent.on{display:block}
+
+/* ---------- Pied ---------- */
+.foot{background:var(--night);border-top:1px solid var(--line-d);padding:56px 0 40px;font-size:14px;color:var(--mute-d)}
+.foot::before{content:"";display:block;height:3px;margin-top:-59px;margin-bottom:56px;background:linear-gradient(90deg,var(--k-2),var(--k),transparent)}
+.foot-grid{display:grid;grid-template-columns:minmax(0,1.4fr) repeat(2,minmax(0,1fr));gap:40px}
+.foot .wm{font-size:30px;color:#fff}
+.foot h4{font-size:13px;color:#fff;font-weight:600;margin-bottom:12px}
+.foot ul{display:grid;gap:8px}
+.foot a{text-decoration:none}
+.foot a:hover{color:#fff}
+.by{display:flex;align-items:center;gap:10px;margin-top:20px}
+.by img{height:22px;width:auto}
+.foot-bot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;margin-top:48px;padding-top:20px;border-top:1px solid var(--line-d);font-size:13px}
+
+/* ---------- Responsive ---------- */
+@media (max-width:1100px){
+  .app-body{grid-template-columns:minmax(0,1fr) 300px}
+  .side{display:none}
+}
+@media (max-width:980px){
+  .hero-grid,.z-head,.miss-head,.cedre-grid,.viv-grid,.mait-grid,.faq-grid,.final-grid,.acces-grid{grid-template-columns:minmax(0,1fr)}
+  .hero-grid{gap:28px}
+  .mait-sticky{position:static}
+  .tabs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .pgrid{grid-template-columns:minmax(0,1fr)}
+  .secu-grid{grid-template-columns:minmax(0,1fr)}
+  .sc-big,.sc-a,.sc-b,.sc-c{grid-column:auto;grid-row:auto}
+  .zscene{display:none}
+  .zlist{display:grid;gap:28px}
+  .zl h3{font-size:24px;font-weight:600;letter-spacing:-.03em;margin:6px 0 14px}
+  .zl .no{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--k)}
+  .zl .znode{position:static;transform:none;display:flex;margin-bottom:8px;white-space:normal}
+  .zl{padding-left:22px;border-left:3px solid var(--k)}
+  .tablet-wrap{max-width:520px;margin:0 auto;width:100%}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .foot-grid>div:first-child{grid-column:1/-1}
+}
+@media (max-width:720px){
+  body{font-size:16px}
+  .app-body{grid-template-columns:minmax(0,1fr)}
+  .feed{border-left:0;border-top:1px solid #ECE8DE}
+  .cards{grid-template-columns:minmax(0,1fr);gap:6px}
+  .pc{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;column-gap:10px;padding:10px 12px}
+  .pc b{grid-column:1;margin:2px 0 0}
+  .pc>span{display:none}
+  .pc .chk{grid-column:2;grid-row:1/3;margin:0}
+  .pc .chk{font-size:0;gap:0}.pc .chk svg{width:16px;height:16px}
+  #feed .ev:nth-child(3){display:none}
+  .main{padding:16px}
+  .app-bar .live span{display:none}
+  .slab{left:12px;border-radius:30px 120px 0 0}
+  .slab-n{display:none}
+  .stage{padding:0 12px}
+  .tabs{grid-template-columns:minmax(0,1fr)}
+  .tab p{display:none}
+  .doc{grid-template-columns:minmax(0,1fr)}
+  .vault{grid-template-columns:minmax(0,1fr)}
+  .etude{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:center;text-align:left}
+  .etude .key{margin:0}
+  .f-grid{grid-template-columns:minmax(0,1fr)}
+  .fact{grid-template-columns:minmax(0,1fr)}
+  .fact .badge{justify-self:start}
+  .sc-c{grid-template-columns:minmax(0,1fr)}
+  .ac-1{border-radius:26px 26px 26px 70px}
+  .client-note{align-items:flex-start}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .js .rv,.js .zscene .znode,.js .zscene .zstep,.js .ev.pre{opacity:1!important;transform:none!important}
+  .zscene .znode{transform:translate(-50%,-50%)!important}
+  .js .zpath,.js .rings path{stroke-dashoffset:0!important}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#contenu">Aller au contenu</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="zgrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--k-hi)"/><stop offset=".5" style="stop-color:var(--k)"/><stop offset="1" style="stop-color:var(--k-2)"/></linearGradient>
+    <linearGradient id="bzgrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:#000F57"/><stop offset=".55" style="stop-color:var(--k-2)"/><stop offset="1" style="stop-color:var(--k)"/></linearGradient>
+  </defs>
+  <symbol id="z" viewBox="0 0 84 100"><path d="M0 0H84V19L31 81H84V100H0V81L53 19H0Z"/></symbol>
+  <symbol id="pic" viewBox="0 0 40 40"><path class="ap" style="fill:var(--k)" d="M10 0H22A18 18 0 0 1 40 18V30A10 10 0 0 1 30 40H10A10 10 0 0 1 0 30V10A10 10 0 0 1 10 0Z"/><path fill="#010727" d="M19.61 8.44L14.56 12.18L28.45 20.37ZM11.74 14.47L10.1 20.57L31.4 26.53ZM7.88 23.65L6.5 29.74L33.5 29.61ZM18.17 29.55H21.38V32.76H18.17Z"/></symbol>
+  <symbol id="chk" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3 4.7-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="arr" viewBox="0 0 16 16"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 20 20"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="2.5" y="4.5" width="15" height="11" rx="2"/><path d="M3 5.5l7 5.2 7-5.2"/></g></symbol>
+  <symbol id="i-doc" viewBox="0 0 20 20"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M5 2.5h6.5L15 6v11.5H5z"/><path d="M11.5 2.5V6H15M7.5 10h5M7.5 13h5"/></g></symbol>
+  <symbol id="i-up" viewBox="0 0 20 20"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13V3.5M6 7.5l4-4 4 4M3.5 13.5v3h13v-3"/></g></symbol>
+  <symbol id="i-bell" viewBox="0 0 20 20"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M5 13.5V9a5 5 0 0110 0v4.5l1.5 1.5h-13z"/><path d="M8.5 17h3"/></g></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="12" r="4"/><path d="M12 12h9M18 12v3M21 12v2"/></g></symbol>
+  <symbol id="i-hand" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></g></symbol>
+  <symbol id="i-wall" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9.3h18M3 14.7h18M9 4v5.3M15 9.3v5.4M9 14.7V20"/></g></symbol>
+  <symbol id="i-fr" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.6-7-11a7 7 0 0114 0c0 5.4-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></g></symbol>
+  <symbol id="i-plus" viewBox="0 0 14 14"><path d="M7 1v12M1 7h12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+</svg>
+
+<header class="nav" id="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top" aria-label="kedroZ, accueil">
+      <span class="wm" aria-hidden="true"><svg class="pic"><use href="#pic"/></svg>kedro<svg class="z" viewBox="0 0 84 100"><use href="#z"/></svg></span>
+    </a>
+    <nav class="nav-links" aria-label="Navigation principale">
+      <a href="#logiciel">Le logiciel</a>
+      <a href="#missions">Missions</a>
+      <a href="https://kedros.legal/simulateurs">Outils</a>
+      <a href="#securite">Sécurité</a>
+      <a href="#acces">Pour votre étude</a>
+    </nav>
+    <a class="login" href="#acces">Connexion</a>
+    <a class="btn btn-k" href="#demo">Demander une démonstration</a>
+    <button class="burger" id="burger" aria-expanded="false" aria-controls="sheet" aria-label="Ouvrir le menu"><span></span></button>
+  </div>
+  <div class="sheet" id="sheet">
+    <a href="#logiciel">Le logiciel</a>
+    <a href="#missions">Missions</a>
+    <a href="https://kedros.legal/simulateurs">Outils</a>
+    <a href="#securite">Sécurité</a>
+    <a href="#acces">Pour votre étude</a>
+    <a href="#acces">Connexion</a>
+    <a class="btn btn-k" href="#demo">Demander une démonstration</a>
+  </div>
+</header>
+
+<main id="contenu">
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <svg class="rings-bg" id="ringsBg" viewBox="0 0 1000 1000" aria-hidden="true"></svg>
+  <div class="wrap hero-grid">
+    <div>
+      <p class="chip rv"><i>Nouveau</i>Kedros devient kedroZ</p>
+      <h1 class="h1 rv d1">Vos actes notariés, <span class="serif">plus vite, plus simplement.</span></h1>
+    </div>
+    <div class="hero-side">
+      <p class="rv d2">kedroZ lit les mails, classe les pièces, lance les collectes et prépare les projets d'acte. Votre étude relit, décide, et retrouve du temps pour ses clients.</p>
+      <div class="ctas rv d3">
+        <a class="btn btn-k" href="#demo">Demander une démonstration <svg><use href="#arr"/></svg></a>
+        <a class="btn btn-ghost" href="#logiciel">Voir comment ça marche</a>
+      </div>
+      <div class="reassure rv d3">
+        <span><svg><use href="#chk"/></svg>Conçu par des notaires</span>
+        <span><svg><use href="#chk"/></svg>Hébergé en France</span>
+        <span><svg><use href="#chk"/></svg>Une clé par étude</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="slab" aria-hidden="true"></div>
+    <div class="slab-n" aria-hidden="true"></div>
+    <div class="app rv" role="img" aria-label="Aperçu de kedroZ : dossier de vente 2026-0148 à jour, fiches vendeurs, acquéreur et bien complétées, 18 pièces sur 20, derniers éléments intégrés depuis les mails et l'espace client.">
+      <div class="app-bar">
+        <div class="dots"><i></i><i></i><i></i></div>
+        <div class="crumb">Dossiers <span>/</span> <b>Vente M. · P.</b></div>
+        <div class="live"><i></i><span>Actualisé à 10:42</span></div>
+      </div>
+      <div class="app-body">
+        <aside class="side">
+          <div class="wm"><svg class="pic"><use href="#pic"/></svg>kedro<svg class="z" viewBox="0 0 84 100"><use href="#z"/></svg></div>
+          <a class="on" href="#logiciel" tabindex="-1">Synthèse</a>
+          <a href="#logiciel" tabindex="-1">Vue d'ensemble</a>
+          <a href="#logiciel" tabindex="-1">Clients <em>3</em></a>
+          <a href="#logiciel" tabindex="-1">Bien</a>
+          <a href="#logiciel" tabindex="-1">Financement</a>
+          <a href="#logiciel" tabindex="-1">Pièces <em class="k">18/20</em></a>
+          <a href="#logiciel" tabindex="-1">Échéances</a>
+        </aside>
+        <div class="main">
+          <div class="d-head">
+            <div><div class="ref">DOSSIER 2026-0148 · VENTE</div><h3>Vente M. · P.</h3></div>
+            <span class="tag ok"><svg width="11" height="11"><use href="#chk"/></svg>À jour</span>
+          </div>
+          <div class="cards">
+            <div class="pc"><div class="lb">Vendeurs</div><b>Claire et Marc M.</b><span>Fiches clients complétées</span><div class="chk"><svg><use href="#chk"/></svg>Identités vérifiées</div></div>
+            <div class="pc"><div class="lb">Acquéreur</div><b>Julien P.</b><span>Fiche complétée</span><div class="chk"><svg><use href="#chk"/></svg>Financement renseigné</div></div>
+            <div class="pc"><div class="lb">Bien</div><b>Appartement à Lyon</b><span>Lot de copropriété</span><div class="chk"><svg><use href="#chk"/></svg>Désignation rapprochée</div></div>
+          </div>
+          <div class="prog">
+            <div class="row"><span>Pièces du dossier</span><b>18 / 20</b></div>
+            <div class="bar"><i></i></div>
+          </div>
+          <div class="prov">
+            <span><i style="background:#1FA971"></i>Établi</span>
+            <span><i style="background:#3D55D8"></i>Déclaré</span>
+            <span><i style="background:#7B5CF0"></i>Calculé</span>
+            <span><i style="background:var(--k-2)"></i>À confirmer</span>
+          </div>
+        </div>
+        <div class="feed">
+          <h4>Derniers éléments intégrés <span>4 aujourd'hui</span></h4>
+          <div id="feed">
+            <div class="ev pre"><div class="t">10:42 · Mail acquéreur</div><b>Accord de prêt reçu</b><span>Réponse suggérée prête</span></div>
+            <div class="ev pre"><div class="t">09:18 · Espace client</div><b>Pièce d'identité de l'acquéreur lue</b><span>Fiche actualisée</span></div>
+            <div class="ev pre"><div class="t">Hier · Mail diagnostiqueur</div><b>DPE et ERP classés</b><span>Collecte actualisée</span></div>
+          </div>
+          <div class="todo"><div class="t">À suivre</div><b>Attestation d'assurance attendue</b><button type="button" tabindex="-1">Relance préparée</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 01 LE TRAJET ============ -->
+<section class="sec zsec" id="logiciel" aria-labelledby="t-z">
+  <div class="wrap">
+    <div class="z-head">
+      <div class="rv">
+        <div class="idx"><span class="n">01</span>Efficacité activée</div>
+        <h2 class="h2" id="t-z">Conçu par des notaires, <span class="serif">pour des notaires.</span></h2>
+      </div>
+      <p class="lead rv d1">kedroZ relie les courriers, les mails, les pièces, les échéances et les projets d'acte. Le dossier s'actualise au fil du travail, sans ressaisie. Votre équipe gagne du temps pour mieux traiter chaque dossier et mieux accompagner chaque client.</p>
+    </div>
+
+    <div class="zscene" id="zscene" aria-hidden="true">
+      <svg viewBox="0 0 1200 560" preserveAspectRatio="none">
+        <path class="zghost" d="M70 70H1130L70 490H1130"/>
+        <path class="zpath" pathLength="1" d="M70 70H1130L70 490H1130"/>
+      </svg>
+      <div class="zstep s1" style="left:0;top:20%"><div class="no">01</div><h3>Les mails alimentent le dossier</h3></div>
+      <div class="znode n1" style="left:38%;top:12.5%"><span class="ic"><svg><use href="#i-mail"/></svg></span><span><b>Mail acquéreur</b><span>Accord de prêt reçu</span></span></div>
+      <div class="znode n2" style="left:62%;top:12.5%"><span class="ic"><svg><use href="#i-mail"/></svg></span><span><b>Mail diagnostiqueur</b><span>DPE et ERP joints</span></span></div>
+      <div class="znode n3" style="left:85%;top:12.5%"><span class="ic"><svg><use href="#i-up"/></svg></span><span><b>Espace client</b><span>Pièce d'identité déposée</span></span></div>
+      <div class="zstep s2" style="left:56%;top:41%;width:min(320px,28%)"><div class="no">02</div><h3>Les collectes se lancent au bon moment</h3></div>
+      <div class="znode n4 kk" style="left:66%;top:36%"><span class="ic"><svg><use href="#i-bell"/></svg></span><span><b>Collecte lancée</b><span>Attestation d'assurance</span></span></div>
+      <div class="znode n5 kk" style="left:34%;top:64%"><span class="ic"><svg><use href="#i-bell"/></svg></span><span><b>Relance préparée</b><span>À valider par l'équipe</span></span></div>
+      <div class="zstep s3" style="left:0;top:96%;width:min(340px,30%)"><div class="no">03</div><h3>Les Word arrivent prêts à relire</h3></div>
+      <div class="znode n6" style="left:55%;top:87.5%"><span class="ic"><svg><use href="#i-doc"/></svg></span><span><b>Projet d'acte.docx</b><span>Prêt à relire</span></span></div>
+      <div class="znode n7" style="left:82%;top:87.5%"><span class="ic"><svg><use href="#i-doc"/></svg></span><span><b>Réponse à l'acquéreur.docx</b><span>Suggérée, à valider</span></span></div>
+    </div>
+
+    <div class="zlist">
+      <div class="zl rv"><div class="no">01</div><h3>Les mails alimentent le dossier</h3>
+        <div class="znode"><span class="ic"><svg><use href="#i-mail"/></svg></span><span><b>Mail acquéreur</b><span>Accord de prêt reçu</span></span></div>
+        <div class="znode"><span class="ic"><svg><use href="#i-up"/></svg></span><span><b>Espace client</b><span>Pièce d'identité déposée</span></span></div></div>
+      <div class="zl rv"><div class="no">02</div><h3>Les collectes se lancent au bon moment</h3>
+        <div class="znode kk"><span class="ic"><svg><use href="#i-bell"/></svg></span><span><b>Collecte lancée</b><span>Attestation d'assurance</span></span></div></div>
+      <div class="zl rv"><div class="no">03</div><h3>Les Word arrivent prêts à relire</h3>
+        <div class="znode"><span class="ic"><svg><use href="#i-doc"/></svg></span><span><b>Projet d'acte.docx</b><span>Prêt à relire</span></span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 CÈDRE ============ -->
+<section class="sec light cedre" aria-labelledby="t-cedre">
+  <div class="wrap">
+    <div class="cedre-grid">
+      <div>
+        <div class="idx rv"><span class="n">02</span>Pourquoi kedroZ</div>
+        <p class="greek rv" lang="grc">κέδρος</p>
+        <p class="greek-sub rv d1">Le cèdre, en grec ancien</p>
+        <h2 class="rv d1" id="t-cedre">Le bois des actes <span class="serif">qui traversent le temps.</span></h2>
+        <p class="txt rv d2">Les Tablettes Albertini sont des actes juridiques privés écrits à l'encre sur du bois, le plus souvent du cèdre, en Afrique du Nord à la fin du V<sup>e</sup> siècle. Elles consignent des ventes de terres, la cession d'un pressoir et la dot de Geminia Ianuarilla.</p>
+        <p class="txt rv d2">Un arbre qui traverse les générations, des actes qui doivent leur survivre. kedroZ porte cette ambition dans le monde numérique : donner à chaque dossier une mémoire durable, protégée et vérifiable.</p>
+        <p class="motto rv d3">Le support a changé. L'exigence demeure.</p>
+      </div>
+      <div class="tablet-wrap">
+        <svg class="rings" id="rings" viewBox="0 0 1000 1000" aria-hidden="true"></svg>
+        <figure class="tablet rv">
+          <blockquote class="lat" lang="la">« Tabella dotis Geminiae Ianuarillae sponsae simul cum Iuliano […] fit omnis summa dotis folles duodecim milia. Ego sponsus Iulianus accepi. »</blockquote>
+          <figcaption>
+            <p class="fr">« Acte de dot de Geminia Ianuarilla, promise à Iulianus […] Le montant total de la dot s'élève à 12 000 folles. Moi, Iulianus, futur époux, je l'ai reçue. »</p>
+            <p class="src">Tablette Albertini I · bois de cèdre · 493*</p>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+    <p class="note">* Tablette Albertini I, acte de dot traditionnellement daté du 17 septembre 493, avec une réserve dans l'édition scientifique. Bois de cèdre, écriture à l'encre. Musée public national des Antiquités et des Arts islamiques d'Alger. <a href="https://musee-antiquites.art.dz/portfolio/tablette-dun-acte-de-dot-dune-femme-mariee/" rel="noopener">Notice du musée</a> · <a href="https://droitromain.univ-grenoble-alpes.fr/Pdf/TAlbertini_Saumagne.pdf" rel="noopener">Transcription scientifique</a>.</p>
+  </div>
+</section>
+
+<!-- ============ 03 MISSIONS ============ -->
+<section class="sec light miss" id="missions" aria-labelledby="t-miss">
+  <div class="wrap">
+    <div class="miss-head">
+      <div class="rv">
+        <div class="idx"><span class="n">03</span>Vos missions, un même espace</div>
+        <h2 class="h2" id="t-miss">Choisissez le travail à faire. <span class="serif">kedroZ rassemble le reste.</span></h2>
+      </div>
+    </div>
+
+    <div class="tabs rv" role="tablist" aria-label="Missions">
+      <button class="tab" role="tab" id="tab-1" aria-controls="p-1" aria-selected="true"><span class="no">01</span><b>Suivre le dossier</b><p>Mails et documents font évoluer le dossier en temps réel.</p></button>
+      <button class="tab" role="tab" id="tab-2" aria-controls="p-2" aria-selected="false" tabindex="-1"><span class="no">02</span><b>Collecter les pièces</b><p>Demandes ciblées, dépôt sécurisé, relances.</p></button>
+      <button class="tab" role="tab" id="tab-3" aria-controls="p-3" aria-selected="false" tabindex="-1"><span class="no">03</span><b>Préparer les documents</b><p>Des Word prêts à relire et à valider.</p></button>
+      <button class="tab" role="tab" id="tab-4" aria-controls="p-4" aria-selected="false" tabindex="-1"><span class="no">04</span><b>Relire les projets</b><p>Incohérences et manques signalés.</p></button>
+    </div>
+
+    <div class="panel" role="tabpanel" id="p-1" aria-labelledby="tab-1" tabindex="0">
+      <div class="pgrid">
+        <div>
+          <h3>Chaque mail <span class="serif">fait avancer le dossier.</span></h3>
+          <p>Les nouveaux mails et documents font évoluer le dossier en temps réel et aident à préparer les réponses.</p>
+          <ul>
+            <li><svg><use href="#chk"/></svg>Le mail est rattaché au bon dossier</li>
+            <li><svg><use href="#chk"/></svg>Les informations utiles mettent à jour les fiches</li>
+            <li><svg><use href="#chk"/></svg>Une réponse est suggérée, l'équipe la relit</li>
+          </ul>
+        </div>
+        <div class="mock" aria-hidden="true">
+          <div class="mh"><b>Boîte du dossier</b><span>Vente M. · P.</span></div>
+          <div class="mail"><div class="from"><b>Julien P. · acquéreur</b><span>10:42</span></div><p>Bonjour, je vous transmets l'accord de prêt de ma banque. Pouvez-vous me confirmer la suite et la date de signature ?</p>
+            <div class="links"><span>Financement : accord reçu</span><span>Pièce 18/20</span><span>Échéance mise à jour</span></div></div>
+          <div class="suggest"><div class="lb">Réponse suggérée</div><p>Bonjour Monsieur, nous avons bien reçu votre accord de prêt, il est ajouté à votre dossier. Il nous reste l'attestation d'assurance à recevoir…</p><div class="acts"><span>Relire et envoyer</span><span>Modifier</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" role="tabpanel" id="p-2" aria-labelledby="tab-2" tabindex="0" hidden>
+      <div class="pgrid">
+        <div>
+          <h3>Les bonnes pièces, <span class="serif">au bon moment.</span></h3>
+          <p>Demandes ciblées, dépôt sécurisé, relances et contrôle de complétude.</p>
+          <ul>
+            <li><svg><use href="#chk"/></svg>Chaque client reçoit un lien de dépôt limité à son dossier</li>
+            <li><svg><use href="#chk"/></svg>Les pièces reçues sont lues et classées</li>
+            <li><svg><use href="#chk"/></svg>Les relances sont préparées, l'équipe décide</li>
+          </ul>
+        </div>
+        <div class="mock" aria-hidden="true">
+          <div class="mh"><b>Pièces · 18 / 20</b><span>Contrôle de complétude</span></div>
+          <div class="pieces">
+            <div class="piece"><span class="st"><svg><use href="#chk"/></svg></span>Pièces d'identité des vendeurs<small>Lues</small></div>
+            <div class="piece"><span class="st"><svg><use href="#chk"/></svg></span>Titre de propriété<small>Classé</small></div>
+            <div class="piece"><span class="st"><svg><use href="#chk"/></svg></span>DPE et ERP<small>Mail diagnostiqueur</small></div>
+            <div class="piece"><span class="st"><svg><use href="#chk"/></svg></span>Accord de prêt<small>Mail acquéreur</small></div>
+            <div class="piece wait"><span class="st"><svg><use href="#i-bell"/></svg></span>Attestation d'assurance<small>Relance préparée</small></div>
+            <div class="piece wait"><span class="st"><svg><use href="#i-bell"/></svg></span>État daté du syndic<small>Demande envoyée</small></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" role="tabpanel" id="p-3" aria-labelledby="tab-3" tabindex="0" hidden>
+      <div class="pgrid">
+        <div>
+          <h3>Des Word prêts <span class="serif">à relire.</span></h3>
+          <p>Des documents Word prêts à relire, à corriger et à valider par l'équipe. Les informations du dossier sont déjà en place.</p>
+          <ul>
+            <li><svg><use href="#chk"/></svg>Préremplis depuis les fiches clients et bien</li>
+            <li><svg><use href="#chk"/></svg>Votre papier à en-tête, votre mise en page</li>
+            <li><svg><use href="#chk"/></svg>Chaque donnée garde sa source</li>
+          </ul>
+        </div>
+        <div class="mock" aria-hidden="true">
+          <div class="doc">
+            <div class="page">
+              <div class="tt">VENTE</div>
+              <p>Entre <mark>Madame Claire M.</mark> et <mark>Monsieur Marc M.</mark>, vendeurs,</p>
+              <p>et <mark>Monsieur Julien P.</mark>, acquéreur,</p>
+              <div class="l"></div><div class="l s"></div>
+              <p>Désignation : <mark>appartement, lot de copropriété, Lyon</mark></p>
+              <div class="l"></div><div class="l"></div><div class="l s"></div>
+            </div>
+            <div class="doc-side">
+              <div><b>Vendeurs</b>Fiches clients</div>
+              <div><b>Désignation</b>Titre de propriété</div>
+              <div><b>Financement</b>Accord de prêt, 10:42</div>
+            </div>
+          </div>
+          <div class="word"><i>W</i>Projet d'acte · Vente M. · P..docx</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" role="tabpanel" id="p-4" aria-labelledby="tab-4" tabindex="0" hidden>
+      <div class="pgrid">
+        <div>
+          <h3>Un second regard <span class="serif">sur chaque projet.</span></h3>
+          <p>Incohérences, points de vigilance et informations manquantes sont signalés. Le notaire tranche.</p>
+          <ul>
+            <li><svg><use href="#chk"/></svg>Chaque signalement renvoie à sa source</li>
+            <li><svg><use href="#chk"/></svg>Rien n'est corrigé sans vous</li>
+          </ul>
+        </div>
+        <div class="mock" aria-hidden="true">
+          <div class="mh"><b>Relecture · Projet d'acte</b><span>3 points</span></div>
+          <div class="flag"><span class="fl f1">Incohérence</span><div>Prénom du vendeur différent entre l'acte et la pièce d'identité<span>Fiche client · pièce d'identité</span></div></div>
+          <div class="flag"><span class="fl f2">Vigilance</span><div>Attestation d'assurance non reçue à ce jour<span>Collecte en cours</span></div></div>
+          <div class="flag"><span class="fl f3">Manquant</span><div>Date de l'état daté à compléter<span>Demande au syndic envoyée</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 04 DOSSIER VIVANT ============ -->
+<section class="sec vivant" aria-labelledby="t-viv">
+  <div class="wrap viv-grid">
+    <div>
+      <div class="idx rv"><span class="n">04</span>L'outil au premier plan</div>
+      <h2 class="h2 rv" id="t-viv">Le dossier <span class="serif">vivant.</span></h2>
+      <p class="lead rv d1" style="margin-top:22px">Quelques pièces suffisent : kedroZ en extrait les informations, préremplit les fiches clients et bien, puis prépare les collectes et la tenue du dossier. Chaque nouvel élément actualise la synthèse et facilite la réponse aux mails.</p>
+      <ul class="gains rv d2">
+        <li><i>01</i>Pas de saisie inutile, du temps gagné.</li>
+        <li><i>02</i>Une équipe plus disponible et plus réactive.</li>
+        <li><i>03</i>Des clients mieux informés et mieux accompagnés.</li>
+      </ul>
+    </div>
+    <div class="legend rv d1">
+      <h3>Rien n'est présenté comme certain sans source.</h3>
+      <p>Chaque donnée distingue l'établi, le déclaré, le calculé et l'à confirmer.</p>
+      <div class="facts">
+        <div class="fact"><div><div class="k">Vendeur · identité</div><b>Claire M., née le 4 mars 1979</b></div><span class="badge b-est"><i></i>Établi</span></div>
+        <div class="fact"><div><div class="k">Bien · usage</div><b>Résidence principale</b></div><span class="badge b-dec"><i></i>Déclaré</span></div>
+        <div class="fact"><div><div class="k">Échéance · réitération</div><b>Signature prévue sous 45 jours</b></div><span class="badge b-cal"><i></i>Calculé</span></div>
+        <div class="fact"><div><div class="k">Acquéreur · assurance</div><b>Attestation attendue</b></div><span class="badge b-conf"><i></i>À confirmer</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 MAÎTRISE ============ -->
+<section class="sec light" aria-labelledby="t-mait">
+  <div class="wrap mait-grid">
+    <div class="mait-sticky">
+      <div class="idx rv"><span class="n">05</span>Ce que kedroZ change au quotidien</div>
+      <h2 class="h2 rv" id="t-mait">Moins de mécanique. <span class="serif">Plus de maîtrise.</span></h2>
+    </div>
+    <ol class="mlist">
+      <li class="rvl"><span class="no">1</span><div><h3>Tout est au même endroit</h3><p>Mails, pièces, tâches, échéances et documents restent reliés au dossier.</p></div></li>
+      <li class="rvl"><span class="no">2</span><div><h3>Le dossier se tient à jour</h3><p>Les événements utiles sont intégrés au fil de l'eau et restent vérifiables.</p></div></li>
+      <li class="rvl"><span class="no">3</span><div><h3>Les réponses partent plus vite</h3><p>Le dossier à jour aide l'équipe à comprendre les mails et à préparer une réponse pertinente.</p></div></li>
+      <li class="rvl"><span class="no">4</span><div><h3>Chaque donnée a sa source</h3><p>Rien n'est présenté comme certain sans source : l'établi, le déclaré, le calculé et l'à confirmer restent distincts.</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ 06 SÉCURITÉ ============ -->
+<section class="sec secu" id="securite" aria-labelledby="t-secu">
+  <div class="wrap">
+    <div class="secu-head">
+      <div class="idx rv"><span class="n">06</span>La technologie sous contrôle</div>
+      <h2 class="h2 rv" id="t-secu">kedroZ assiste le notaire. <span class="serif">Il ne se substitue jamais à lui.</span></h2>
+    </div>
+    <div class="secu-grid">
+      <div class="sc sc-big rv">
+        <div class="ic"><svg><use href="#i-key"/></svg></div>
+        <h3>Une clé par étude</h3>
+        <p>Chaque étude a sa propre clé de chiffrement, gardée par kedroZ dans un coffre dédié. Une autre étude ne peut pas accéder à ses données.</p>
+        <div class="vault" aria-hidden="true">
+          <div class="etude"><div class="key"><svg><use href="#i-key"/></svg></div><div><b>Votre étude</b><span>CLÉ · A7F3</span></div></div>
+          <div class="etude"><div class="key"><svg><use href="#i-key"/></svg></div><div><b>Étude voisine</b><span>CLÉ · 2C9E</span></div></div>
+          <div class="etude"><div class="key"><svg><use href="#i-key"/></svg></div><div><b>Autre étude</b><span>CLÉ · D014</span></div></div>
+        </div>
+      </div>
+      <div class="sc sc-a rv d1">
+        <div class="ic"><svg><use href="#i-hand"/></svg></div>
+        <h3>Le notaire décide</h3>
+        <p>kedroZ prépare, signale et suggère. Chaque envoi, chaque document et chaque correction passent par votre équipe.</p>
+      </div>
+      <div class="sc sc-b rv d2">
+        <div class="ic"><svg><use href="#i-wall"/></svg></div>
+        <h3>Sécurité par conception</h3>
+        <p>Les systèmes d'information sont cloisonnés : aucun passage de données d'une étude à l'autre.</p>
+      </div>
+      <div class="sc sc-c rv">
+        <div class="ic"><svg><use href="#i-fr"/></svg></div>
+        <div>
+          <h3>Technologie française</h3>
+          <p>Hébergement Scaleway en France. Les modèles d'intelligence artificielle sont servis en Union européenne, sauf la lecture des pages manuscrites, détaillée dans l'accord de traitement des données.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 07 ACCÈS ============ -->
+<section class="sec light" id="acces" aria-labelledby="t-acces">
+  <div class="wrap">
+    <div class="idx rv"><span class="n">07</span>Commencer avec kedroZ</div>
+    <h2 class="h2 rv" id="t-acces">Votre accès. <span class="serif">Votre rôle.</span></h2>
+    <p class="lead rv d1" style="margin-top:18px">Les inscriptions sont contrôlées avant toute ouverture de droits.</p>
+    <div class="acces-grid">
+      <div class="ac ac-1 rv">
+        <span class="lb">Notaires et collaborateurs</span>
+        <h3>Créer mon compte</h3>
+        <p>Une seule demande, qui commence par une question : votre étude utilise-t-elle déjà kedroZ ? Selon la réponse, vous inscrivez votre étude ou vous la rejoignez.</p>
+        <a class="btn btn-k" href="#demo">Créer mon compte <svg><use href="#arr"/></svg></a>
+      </div>
+      <div class="ac ac-2 rv d1">
+        <span class="lb">Avocat · immobilier · autre profession</span>
+        <h3>Vous voyez déjà un usage ?</h3>
+        <p>kedroZ est d'abord disponible pour le notariat. Dites-nous quel dossier vous voudriez lui confier.</p>
+        <a class="btn btn-line" href="mailto:contact@kedros.legal">Échanger avec nous <svg><use href="#arr"/></svg></a>
+      </div>
+    </div>
+    <p class="client-note rv"><svg><use href="#i-up"/></svg><span><b>Vous êtes client d'un office ?</b> Aucun compte à créer : votre professionnel vous adresse un lien de dépôt sécurisé, limité à votre dossier.</span></p>
+  </div>
+</section>
+
+<!-- ============ 08 FAQ ============ -->
+<section class="sec light" style="padding-top:0" aria-labelledby="t-faq">
+  <div class="wrap faq-grid">
+    <div>
+      <div class="idx rv"><span class="n">08</span>Questions fréquentes</div>
+      <h2 class="h2 rv" id="t-faq">Avant <span class="serif">de vous lancer.</span></h2>
+    </div>
+    <div class="rv d1">
+      <details class="qa"><summary>Mes clients doivent-ils créer un compte ?<i><svg><use href="#i-plus"/></svg></i></summary><p>Non. Votre étude leur adresse un lien de dépôt sécurisé, limité à leur dossier. Ils y déposent leurs pièces, kedroZ les lit et les classe.</p></details>
+      <details class="qa"><summary>kedroZ envoie-t-il des mails à ma place ?<i><svg><use href="#i-plus"/></svg></i></summary><p>kedroZ prépare des réponses et des relances. Votre équipe les relit, les modifie au besoin et décide de les envoyer. Le notaire garde la main sur chaque décision.</p></details>
+      <details class="qa"><summary>Où sont hébergées les données ?<i><svg><use href="#i-plus"/></svg></i></summary><p>Chez Scaleway, en France. Les modèles d'intelligence artificielle sont servis en Union européenne, sauf la lecture des pages manuscrites, détaillée dans l'accord de traitement des données (article 28 du RGPD).</p></details>
+      <details class="qa"><summary>Une autre étude peut-elle voir nos dossiers ?<i><svg><use href="#i-plus"/></svg></i></summary><p>Non. Chaque étude a sa propre clé de chiffrement et les systèmes sont cloisonnés. Les dossiers et les pièces restent couverts par le secret professionnel.</p></details>
+      <details class="qa"><summary>Mon étude utilise déjà kedroZ, comment la rejoindre ?<i><svg><use href="#i-plus"/></svg></i></summary><p>Créez votre compte et répondez « oui » à la première question. Votre demande est rattachée à votre étude et contrôlée avant l'ouverture de vos droits.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 09 DÉMO ============ -->
+<section class="sec final" id="demo" aria-labelledby="t-demo">
+  <svg class="bigz" viewBox="0 0 84 100" aria-hidden="true"><path d="M0 0H84V19L31 81H84V100H0V81L53 19H0Z"/></svg>
+  <div class="wrap final-grid">
+    <div>
+      <div class="idx rv"><span class="n">09</span>Du temps pour vos clients</div>
+      <h2 class="h2 rv" id="t-demo">Simplifiez votre <span class="serif">prochain dossier.</span></h2>
+      <p class="lead rv d1" style="margin-top:22px">Une meilleure qualité de traitement, une équipe plus disponible, des clients plus satisfaits.</p>
+    </div>
+    <form class="form rv d1" id="form" novalidate>
+      <h3>Demander une démonstration</h3>
+      <p>Nous revenons vers vous pour fixer un créneau.</p>
+      <div class="f-grid">
+        <div class="fld"><label for="f-nom">Nom et prénom</label><input id="f-nom" name="nom" autocomplete="name" required><span class="err">Indiquez votre nom.</span></div>
+        <div class="fld"><label for="f-etude">Étude</label><input id="f-etude" name="etude" autocomplete="organization" required><span class="err">Indiquez le nom de votre étude.</span></div>
+        <div class="fld"><label for="f-mail">Email professionnel</label><input id="f-mail" name="email" type="email" autocomplete="email" required><span class="err">Indiquez un email valide.</span></div>
+        <div class="fld"><label for="f-tel">Téléphone <small>(facultatif)</small></label><input id="f-tel" name="tel" type="tel" autocomplete="tel"></div>
+        <div class="fld full"><label for="f-role">Vous êtes</label><select id="f-role" name="role" required><option value="">Choisir</option><option>Notaire</option><option>Collaborateur ou collaboratrice d'étude</option><option>Autre profession</option></select><span class="err">Choisissez une réponse.</span></div>
+      </div>
+      <button class="btn btn-ink" type="submit">Demander ma démonstration <svg><use href="#arr"/></svg></button>
+      <p class="sent" id="sent" role="status">Maquette : le formulaire est valide, mais rien n'a été envoyé.</p>
+      <p class="legal">Ces informations servent uniquement à vous recontacter. Voir la <a href="#">politique de confidentialité</a>.</p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <span class="wm" aria-label="kedroZ"><svg class="pic" aria-hidden="true"><use href="#pic"/></svg>kedro<svg class="z" viewBox="0 0 84 100" aria-hidden="true"><use href="#z"/></svg></span>
+        <p style="margin-top:14px;max-width:340px">Logiciel pour les études notariales. Hébergement Scaleway, en France.</p>
+        <div class="by"><span>Une solution</span><img src="assets/lezebre-tech-logo-inverse.png" alt="leZèbre Tech"></div>
+      </div>
+      <div>
+        <h4>kedroZ</h4>
+        <ul><li><a href="#logiciel">Le logiciel</a></li><li><a href="#missions">Missions</a></li><li><a href="https://kedros.legal/simulateurs">Outils</a></li><li><a href="#securite">Sécurité</a></li><li><a href="#demo">Démonstration</a></li></ul>
+      </div>
+      <div>
+        <h4>Informations</h4>
+        <ul><li><a href="#">Mentions légales</a></li><li><a href="#">Politique de confidentialité</a></li><li><a href="#">CGU</a></li><li><a href="#">DPA (article 28 RGPD)</a></li><li><a href="mailto:contact@kedros.legal">contact@kedros.legal</a></li></ul>
+      </div>
+    </div>
+    <div class="foot-bot"><span>© 2026 kedroZ · leZèbre Tech</span><span>Conçu par des notaires, pour des notaires.</span></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var d=document, root=d.documentElement;
+  root.classList.add('js');
+  try{var tp=new URLSearchParams(location.search).get('teinte');if(tp&&/^[a-z]+$/.test(tp))root.setAttribute('data-teinte',tp)}catch(e){}
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Navigation */
+  var nav=d.getElementById('nav'), burger=d.getElementById('burger');
+  function onScroll(){nav.classList.toggle('scrolled',window.scrollY>20)}
+  onScroll();window.addEventListener('scroll',onScroll,{passive:true});
+  burger.addEventListener('click',function(){var o=nav.classList.toggle('open');burger.setAttribute('aria-expanded',o);burger.setAttribute('aria-label',o?'Fermer le menu':'Ouvrir le menu')});
+  d.querySelectorAll('.sheet a').forEach(function(a){a.addEventListener('click',function(){nav.classList.remove('open');burger.setAttribute('aria-expanded','false')})});
+
+  /* Cernes du cèdre (anneaux irréguliers) */
+  function rings(svg,n,seed){
+    var out='',cx=500,cy=500;
+    for(var i=1;i<=n;i++){
+      var r=i*(480/n),pts=[],k=48;
+      for(var j=0;j<=k;j++){
+        var a=j/k*Math.PI*2;
+        var w=1+0.035*Math.sin(a*3+i*0.7+seed)+0.02*Math.sin(a*7+i*1.3)+0.012*Math.sin(a*11+seed*2);
+        pts.push([cx+Math.cos(a)*r*w*1.0,cy+Math.sin(a)*r*w*0.94]);
+      }
+      var p='M'+pts[0][0].toFixed(1)+' '+pts[0][1].toFixed(1);
+      for(j=1;j<pts.length;j++){p+='L'+pts[j][0].toFixed(1)+' '+pts[j][1].toFixed(1)}
+      out+='<path pathLength="1" d="'+p+'Z" style="transition-delay:'+(i*0.06).toFixed(2)+'s"/>';
+    }
+    svg.innerHTML=out;
+  }
+  rings(d.getElementById('ringsBg'),26,1.7);
+  rings(d.getElementById('rings'),18,0.4);
+
+  /* Apparitions */
+  var targets=d.querySelectorAll('.rv,.rvl,#zscene,#rings');
+  if(!('IntersectionObserver' in window)||reduce){
+    targets.forEach(function(el){el.classList.add('in','play','grow')});
+  }else{
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){
+      if(!e.isIntersecting)return;
+      var el=e.target;
+      if(el.id==='zscene')el.classList.add('play');
+      else if(el.id==='rings')el.classList.add('grow');
+      else el.classList.add('in');
+      io.unobserve(el);
+    })},{threshold:.18,rootMargin:'0px 0px -6% 0px'});
+    targets.forEach(function(el){io.observe(el)});
+  }
+
+  /* Fil d'événements du hero */
+  var evs=[].slice.call(d.querySelectorAll('#feed .ev'));
+  if(reduce){evs.forEach(function(e){e.classList.remove('pre')})}
+  else{
+    evs.slice().reverse().forEach(function(e,i){setTimeout(function(){e.classList.remove('pre');if(i===evs.length-1){e.classList.add('new');setTimeout(function(){e.classList.remove('new')},2200)}},700+i*650)});
+  }
+
+  /* Onglets */
+  var tabs=[].slice.call(d.querySelectorAll('[role="tab"]'));
+  function sel(t,focus){
+    tabs.forEach(function(x){var on=x===t;x.setAttribute('aria-selected',on);x.tabIndex=on?0:-1;d.getElementById(x.getAttribute('aria-controls')).hidden=!on});
+    if(focus)t.focus();
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){sel(t)});
+    t.addEventListener('keydown',function(e){
+      var j=null;
+      if(e.key==='ArrowRight'||e.key==='ArrowDown')j=(i+1)%tabs.length;
+      else if(e.key==='ArrowLeft'||e.key==='ArrowUp')j=(i-1+tabs.length)%tabs.length;
+      else if(e.key==='Home')j=0;else if(e.key==='End')j=tabs.length-1;
+      if(j!==null){e.preventDefault();sel(tabs[j],true)}
+    });
+  });
+
+  /* Formulaire (maquette : n'envoie rien) */
+  var form=d.getElementById('form'), sent=d.getElementById('sent');
+  form.addEventListener('submit',function(e){
+    e.preventDefault();var ok=true,first=null;
+    form.querySelectorAll('[required]').forEach(function(f){
+      var v=f.value.trim(),bad=!v||(f.type==='email'&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v));
+      f.closest('.fld').classList.toggle('bad',bad);f.setAttribute('aria-invalid',bad);
+      if(bad){ok=false;if(!first)first=f}
+    });
+    sent.classList.toggle('on',ok);
+    if(first)first.focus();
+  });
+  form.querySelectorAll('input,select').forEach(function(f){f.addEventListener('input',function(){f.closest('.fld').classList.remove('bad');f.removeAttribute('aria-invalid')})});
+})();
+</script>
+</body>
+</html>
